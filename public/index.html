@@ -64,6 +64,367 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-hexo操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/16/hexo%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2021-12-16T08:22:03.000Z" itemprop="datePublished">2021-12-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/16/hexo%E6%93%8D%E4%BD%9C/">hexo操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="发布命令"><a href="#发布命令" class="headerlink" title="发布命令"></a>发布命令</h2><pre><code>hexo clean &amp;&amp; hexo g &amp;&amp; hexo d
+</code></pre>
+<h2 id="新建文章"><a href="#新建文章" class="headerlink" title="新建文章"></a>新建文章</h2><pre><code>hexo new articleTest
+</code></pre>
+<h2 id="搭建步骤"><a href="#搭建步骤" class="headerlink" title="搭建步骤"></a>搭建步骤</h2><p>//第一条   安装hexo的基础框架，如果很慢的话，可以考虑挂下梯子，或者换个源<br>     npm install -g hexo</p>
+<pre><code> //第二条   初始化hexo框架 这个可能会比较慢
+ hexo init
+ 
+ //第三条 安装所需要的组件
+ npm install
+ 
+ //第四条 编译生成静态页面
+ hexo g
+ 
+ //第五条 启动本地服务
+ hexo s
+</code></pre>
+<p>合并：1.     npm install -g hexo &amp;&amp; hexo init &amp;&amp; npm install &amp;&amp;npm i hexo-deployer-git &amp;&amp; hexo g &amp;&amp; hexo s<br>git 步骤：2.git config –global user.name ‘feixiangsnaik’ &amp;&amp;git config –global user.email ‘<a href="mailto:&#x66;&#101;&#105;&#x78;&#105;&#x61;&#x6e;&#x67;&#115;&#110;&#97;&#105;&#x6c;&#64;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x66;&#101;&#105;&#x78;&#105;&#x61;&#x6e;&#x67;&#115;&#110;&#97;&#105;&#x6c;&#64;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a>‘&amp;&amp;ssh-keygen -t rsa -C ‘<a href="mailto:&#x66;&#x65;&#105;&#120;&#x69;&#x61;&#110;&#x67;&#115;&#110;&#x61;&#105;&#108;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;">&#x66;&#x65;&#105;&#120;&#x69;&#x61;&#110;&#x67;&#115;&#110;&#x61;&#105;&#108;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;</a>‘    然后回车到底，把pub的内容拷贝到github ssh里面。<br>3.deploy:<br>  type: git<br>  repository: <a target="_blank" rel="noopener" href="https://github.com/feixiangsnaik/feixiangsnaik.github.io">https://github.com/feixiangsnaik/feixiangsnaik.github.io</a><br>  branch: master<br>把上面代码添加到config.xml最下面<br>4.hexo new post “article title”新建文章，然后 hexo g &amp;&amp; hexo s &amp;&amp;hexo d（或者清除缓存，每次修改配置文件后都要执行该命令<br>  hexo clean</p>
+<p>  // 生成静态页面文件，每次clean后也要重新生成<br>  hexo g</p>
+<p>  // 向仓库推送文件<br>  hexo d）<br>合并：hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/12/16/hexo%E6%93%8D%E4%BD%9C/" data-id="ckx9pmhwb0003s79bh09y9svy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-jwt" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/16/jwt/" class="article-date">
+  <time datetime="2021-12-16T08:15:18.000Z" itemprop="datePublished">2021-12-16</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/16/jwt/">jwt</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>let Koa = require(&#39;koa&#39;);
+let Router = require(&#39;koa-router&#39;);
+let bodyparser = require(&#39;koa-bodyparser&#39;);
+let jwt = require(&#39;jwt-simple&#39;);
+let router = new Router()
+let app = new Koa();
+app.use(bodyparser());
+// 可以自己自定义
+let secret = &#39;zhenglei&#39;;
+// 验证是否登陆
+router.post(&#39;/login&#39;,async(ctx)=&gt;&#123; 
+    let &#123;username,password&#125; = ctx.request.body;
+    if(username === &#39;admin&#39; &amp;&amp; password === &#39;admin&#39;)&#123;
+      // 通常会查数据库，这里简单的演示
+      let token =  jwt.encode(username, secret);
+      ctx.body = &#123;
+            code:200,
+            username,
+            token,
+      &#125;
+    &#125;
+&#125;);
+// 验证是否有权限
+router.get(&#39;/validate&#39;,async(ctx)=&gt;&#123; 
+    let Authorization = ctx.get(&#39;authorization&#39;)
+    let [,token] = Authorization.split(&#39; &#39;);
+    if(token)&#123;
+        try&#123;
+            let r = jwt.decode(token,secret);
+            ctx.body = &#123;
+                code:200,
+                username:r,
+                token
+            &#125;
+        &#125;catch(e)&#123;
+            ctx.body = &#123;
+                code:401,
+                data:&#39;没有登陆&#39;
+            &#125;
+        &#125;
+    &#125;else&#123;
+        ctx.body = &#123;
+            code:401,
+            data:&#39;没有登陆&#39;
+        &#125;
+    &#125;
+  
+&#125;);
+app.use(router.routes());
+app.listen(4000);
+</code></pre>
+<p>作者：腾讯IMWeb团队<br>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6873700061000237069">https://juejin.cn/post/6873700061000237069</a><br>来源：稀土掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/12/16/jwt/" data-id="ckx9pmhwe0006s79bbecj4a3t" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-好网站" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/11/26/%E5%A5%BD%E7%BD%91%E7%AB%99/" class="article-date">
+  <time datetime="2021-11-26T01:21:15.000Z" itemprop="datePublished">2021-11-26</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/11/26/%E5%A5%BD%E7%BD%91%E7%AB%99/">好网站</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><a target="_blank" rel="noopener" href="https://leetcode-cn.com/problemset/all/">leecode中文站</a> <a target="_blank" rel="noopener" href="https://leetcode-cn.com/problemset/all/">https://leetcode-cn.com/problemset/all/</a></li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/26/%E5%A5%BD%E7%BD%91%E7%AB%99/" data-id="ckx9pmhwg0009s79b63z69xqx" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-markdown学习" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/11/25/markdown%E5%AD%A6%E4%B9%A0/" class="article-date">
+  <time datetime="2021-11-25T11:54:34.000Z" itemprop="datePublished">2021-11-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/11/25/markdown%E5%AD%A6%E4%B9%A0/">markdown学习</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li><a href="#1vscode%E6%8F%92%E4%BB%B6--markdown-in-one%E4%BD%BF%E7%94%A8">1.vscode插件  markdown in one使用</a><ul>
+<li><a href="#1commandshiftp%E4%B8%AD%E7%9A%84%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4">1.command+shift+p中的快捷命令：</a></li>
+<li><a href="#2%E5%B8%B8%E7%94%A8%E5%BF%AB%E6%8D%B7%E9%94%AE">2.常用快捷键</a></li>
+</ul>
+</li>
+<li><a href="#2%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95">2.基础语法</a><h2 id="1-vscode插件-markdown-in-one使用"><a href="#1-vscode插件-markdown-in-one使用" class="headerlink" title="1.vscode插件  markdown in one使用"></a>1.vscode插件  markdown in one使用</h2><h3 id="1-command-shift-p中的快捷命令："><a href="#1-command-shift-p中的快捷命令：" class="headerlink" title="1.command+shift+p中的快捷命令："></a>1.command+shift+p中的快捷命令：</h3>  Markdown All in One: Create Table of Contents<br>  Markdown All in One: Update Table of Contents<br>  Markdown All in One: Add/Update section numbers<br>  Markdown All in One: Remove section numbers<br>  Markdown All in One: Toggle code span<br>  Markdown All in One: Toggle code block<br>  Markdown All in One: Print current document to HTML<br>  Markdown All in One: Print documents to HTML<br>  Markdown All in One: Toggle math environment<br>  Markdown All in One: Toggle list<h3 id="2-常用快捷键"><a href="#2-常用快捷键" class="headerlink" title="2.常用快捷键"></a>2.常用快捷键</h3>  Key    Command<br>  Ctrl + B    粗体<br>  Ctrl + I    斜体    Alt + S    删除线<br>  Ctrl + Shift + ]    标题(uplevel)<br>  Ctrl + Shift + [    标题(downlevel)<br>  Ctrl + M    Toggle math environment<br>  Alt + C    Check/Uncheck task list item<h2 id="2-基础语法"><a href="#2-基础语法" class="headerlink" title="2.基础语法"></a>2.基础语法</h2><h1 id="一级标题（注意空格）"><a href="#一级标题（注意空格）" class="headerlink" title="一级标题（注意空格）"></a>一级标题（注意空格）</h1><h2 id="二级标题"><a href="#二级标题" class="headerlink" title="二级标题"></a>二级标题</h2><blockquote>
+<p>haha<br>heihei </p>
+<blockquote>
+<p>ddd</p>
+</blockquote>
+</blockquote>
+</li>
+</ul>
+<p><code>buhuanhangbuhuanhangdekuaibuhuanhangdekuaibuhuanhangdekuaibuhuanhangdekuaibuhuanhangdekuaibuhuanhangdekuaidekuai</code></p>
+<p><img src="./../img/testpic.jpg"></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/25/markdown%E5%AD%A6%E4%B9%A0/" data-id="ckx9pmhwf0008s79bbbgt2rqw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-git操作" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/11/25/git%E6%93%8D%E4%BD%9C/" class="article-date">
+  <time datetime="2021-11-25T11:03:51.000Z" itemprop="datePublished">2021-11-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/11/25/git%E6%93%8D%E4%BD%9C/">git操作</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-基础和常用命令"><a href="#1-基础和常用命令" class="headerlink" title="1.基础和常用命令"></a>1.基础和常用命令</h2><p>git三个区域（工作区，暂存区（git add),版本库(git commit )<br>1.git init,git status,git add .,git commit -m ‘jilu’,git config –global user.email,git config –global user.name<br>2.git log/reflog .   git reset –hard ‘提交编号’</p>
+<h2 id="2-添加到远程"><a href="#2-添加到远程" class="headerlink" title="2.添加到远程"></a>2.添加到远程</h2><p>第一次添加到远程：<br>git init<br>git remote add origin <a target="_blank" rel="noopener" href="https://github.com/feixiangsnaik/feixiangsnaik.io.git">https://github.com/feixiangsnaik/feixiangsnaik.io.git</a><br>git pull –rebase origin main<br>git push -u origin main</p>
+<h2 id="常见报错"><a href="#常见报错" class="headerlink" title="常见报错"></a>常见报错</h2><p>二、常见报错处理<br>1、导致报错:error: You have not concluded your merge (MERGE_HEAD exists).的原因可能是在以前pull下来的代码自动合并失败。<br>　　解决方案一：保留本地的更改，中止合并-&gt;重新合并-&gt;重新拉取<br>$:git merge –abort<br>$:git reset –merge<br>$:git pull<br>　　git pull之后然后重新解决冲突，再push，（记得需要稍微跟自己push的要有一点区别，要不然又会造成这样的情况）<br>　　解决方案二：舍弃本地代码，远端版本覆盖本地版本（慎重）<br>$:git fetch –all<br>$:git reset –hard origin/master<br>$:git fetch<br>2、Git fetch和git pull的区别<br>　　都可以从远程获取最新版本到本地<br>　　git fetch：只是从远程获取最新版本到本地，不会merge(合并)<br>$:git fetch origin master   //从远程的origin的master主分支上获取最新版本到origin/master分支上<br>$:git log -p master..origin/master //比较本地的master分支和origin/master分支的区别<br>$:git merge origin/master          //合并<br>　　Git pull：从远程获取最新版本并merge(合并)到本地<br>$:git pull origin master  //相当于进行了 git fetch 和 git merge两部操作<br>3、本地删除无效的远程分支：清理远程分支，把本地不存在的远程分支删除<br>git remote prune origin</p>
+<h2 id="代码回退等"><a href="#代码回退等" class="headerlink" title="代码回退等"></a>代码回退等</h2><p>git提交之后没有push，代码被覆盖之后恢复<br>git  reflog  通过这个看commit id<br>git reset [commit id] –hard   有时候要删除一个index.lock文件。<br>//git 强制拉代码<br>git fetch –all<br>git reset –hard origin/master<br>git pull //可以省略</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/25/git%E6%93%8D%E4%BD%9C/" data-id="ckx9pmhwc0004s79bbkfwe2zm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-css" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/11/25/css/" class="article-date">
+  <time datetime="2021-11-25T09:23:01.000Z" itemprop="datePublished">2021-11-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/11/25/css/">css</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/25/css/" data-id="ckx9pmhw90001s79b9gfo9k3q" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js数组" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/11/25/js%E6%95%B0%E7%BB%84/" class="article-date">
+  <time datetime="2021-11-25T09:22:55.000Z" itemprop="datePublished">2021-11-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/11/25/js%E6%95%B0%E7%BB%84/">js数组</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="splice"><a href="#splice" class="headerlink" title="splice"></a>splice</h2><h3 id="删除某个数组元素-原数组改变，返回被删除或者被替换的哪个。"><a href="#删除某个数组元素-原数组改变，返回被删除或者被替换的哪个。" class="headerlink" title="删除某个数组元素,原数组改变，返回被删除或者被替换的哪个。"></a>删除某个数组元素,原数组改变，返回被删除或者被替换的哪个。</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">let b = [1,2,3,4,5]</span><br><span class="line">//如果想删除3，就找到第三项，删除1个（下标，个数），如果想替换，那么第三个参数是添加到删除的位置处</span><br><span class="line">let aa = a.splice(2,1) //删除3</span><br><span class="line">let bb = b.splice(2,1,&#x27;hello&#x27;) //把3换成hello</span><br><span class="line">console.log(a,b,aa,bb)</span><br></pre></td></tr></table></figure>
+<h2 id="slice"><a href="#slice" class="headerlink" title="slice"></a>slice</h2><h3 id="原数组不变，返回数组为截取的"><a href="#原数组不变，返回数组为截取的" class="headerlink" title="原数组不变，返回数组为截取的"></a>原数组不变，返回数组为截取的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">let b = a.slice(1,-1)</span><br><span class="line">console.log(a,b,&#x27;ab&#x27;)</span><br><span class="line">//a=[1,2,3,4,5] b=[2,3,4]</span><br></pre></td></tr></table></figure>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><h3 id="返回一个新数组，内容只包括返回的值。"><a href="#返回一个新数组，内容只包括返回的值。" class="headerlink" title="返回一个新数组，内容只包括返回的值。"></a>返回一个新数组，内容只包括返回的值。</h3><pre><code>var nn = [ &#123; a: &#39;ss&#39;,b:&#39;b1&#39; &#125;,&#123; a: &#39;aa&#39;,b:&#39;b2&#39; &#125;,&#123; a : &#39;11&#39;,b:&#39;b3&#39;&#125; ] 
+var index = nn.map(item =&gt;&#123; return &#123;d:item.a,b:item.b&#125;&#125;)
+console.log(index) [&#123;d:&#39;ss&#39;,b:&#39;b1&#39;&#125;,...]
+//返回指定某个元素的下标
+var nn = [ &#123; a: &#39;ss&#39; &#125;,&#123; a: &#39;aa&#39; &#125;,&#123; a : &#39;11&#39;&#125;,&#123; a: &#39;33&#39; &#125;,&#123; a: &#39;88&#39; &#125; ] 
+var index = nn.map(item =&gt; item.a).indexOf(33)
+console.log(index)
+</code></pre>
+<h2 id="findIndexOf"><a href="#findIndexOf" class="headerlink" title="findIndexOf"></a>findIndexOf</h2><ol>
+<li>查找对象数组，然后返回指定内容的对象所在的索引。<h2 id="every"><a href="#every" class="headerlink" title="every"></a>every</h2></li>
+<li>如果每个都满足，那么就返回true</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/11/25/js%E6%95%B0%E7%BB%84/" data-id="ckx9pmhwd0005s79bhb1jdrl0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-less" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/11/25/less/" class="article-date">
@@ -91,7 +452,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/25/less/" data-id="ckwedvnql00041d9b83p7f822" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/11/25/less/" data-id="ckx9pmhwf0007s79bf8hcgtok" class="article-share-link">Share</a>
       
       
     </footer>
@@ -140,7 +501,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/24/hello-world/" data-id="ckwedvnqj00021d9bcivw43eq" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/11/24/hello-world/" data-id="ckx9pmhwa0002s79bcuafguee" class="article-share-link">Share</a>
       
       
     </footer>
@@ -176,7 +537,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/16/article-title/" data-id="ckwedvnqe00001d9b0muuadkw" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/11/16/article-title/" data-id="ckx9pmhw50000s79b93nw0imy" class="article-share-link">Share</a>
       
       
     </footer>
@@ -204,7 +565,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li></ul>
     </div>
   </div>
 
@@ -217,15 +578,23 @@
       <ul>
         
           <li>
-            <a href="/2021/11/25/less/">less</a>
+            <a href="/2021/12/16/hexo%E6%93%8D%E4%BD%9C/">hexo操作</a>
           </li>
         
           <li>
-            <a href="/2021/11/24/hello-world/">Hello World</a>
+            <a href="/2021/12/16/jwt/">jwt</a>
           </li>
         
           <li>
-            <a href="/2021/11/16/article-title/">article title</a>
+            <a href="/2021/11/26/%E5%A5%BD%E7%BD%91%E7%AB%99/">好网站</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/25/markdown%E5%AD%A6%E4%B9%A0/">markdown学习</a>
+          </li>
+        
+          <li>
+            <a href="/2021/11/25/git%E6%93%8D%E4%BD%9C/">git操作</a>
           </li>
         
       </ul>
