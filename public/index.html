@@ -64,6 +64,418 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-docker" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/25/docker/" class="article-date">
+  <time datetime="2021-12-25T03:39:29.000Z" itemprop="datePublished">2021-12-25</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/25/docker/">docker</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="常规操作"><a href="#常规操作" class="headerlink" title="常规操作"></a>常规操作</h2><p>mac 安装：   brew install –cask docker<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40523307/brew-install-docker-does-not-include-docker-engine">https://stackoverflow.com/questions/40523307/brew-install-docker-does-not-include-docker-engine</a><br>docker版本查看   docker -v</p>
+<h2 id="安装centos和宝塔"><a href="#安装centos和宝塔" class="headerlink" title="安装centos和宝塔"></a>安装centos和宝塔</h2><p>1.docker pull centos<br>2.docker run -i -t -d –name baota -p 20:20 -p 21:21 -p 80:80 -p 443:443 -p 888:888 -p 8888:8888 –privileged=true -v /home/www:/www centos     如果目录不能访问就换个目录比如（docker run -i -t -d –name baota -p 20:20 -p 21:21 -p 80:80 -p 443:443 -p 888:888 -p 8888:8888 –privileged=true -v /Users/zhangshuai/Desktop/installedsoftware/www:/www centos:7 /usr/sbin/init）<br>3.docker exec -it baota /bin/bash</p>
+<h2 id="宝塔安装"><a href="#宝塔安装" class="headerlink" title="宝塔安装"></a>宝塔安装</h2><p>4.yum install -y wget &amp;&amp; wget -O install.sh <a target="_blank" rel="noopener" href="http://download.bt.cn/install/install.sh">http://download.bt.cn/install/install.sh</a> &amp;&amp; sh install.sh<br>docker-&gt;preferences-&gt;resource-&gt;file sharing</p>
+<h2 id="删除所有已退出的容器"><a href="#删除所有已退出的容器" class="headerlink" title="删除所有已退出的容器"></a>删除所有已退出的容器</h2><p>docker rm $(docker ps -q -f status=exited)</p>
+<p>删除所有已停止的容器<br>docker rm $(docker ps -a -q)</p>
+<h2 id="删除所有正在运行和已停止的容器"><a href="#删除所有正在运行和已停止的容器" class="headerlink" title="删除所有正在运行和已停止的容器"></a>删除所有正在运行和已停止的容器</h2><pre><code>docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+</code></pre>
+<h2 id="删除所有容器，没有任何标准"><a href="#删除所有容器，没有任何标准" class="headerlink" title="删除所有容器，没有任何标准"></a>删除所有容器，没有任何标准</h2><p>docker container rm $(docker container ps -aq)</p>
+<p>但是，在1.13及更高版本中，对于完整的系统和清理，我们可以直接使用以下命令，<br>docker system prune</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/12/25/docker/" data-id="ckxla1w6w0002q79bfytrcnzn" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-正则常用" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/23/%E6%AD%A3%E5%88%99%E5%B8%B8%E7%94%A8/" class="article-date">
+  <time datetime="2021-12-23T07:48:29.000Z" itemprop="datePublished">2021-12-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/23/%E6%AD%A3%E5%88%99%E5%B8%B8%E7%94%A8/">正则常用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="字母数字组合"><a href="#字母数字组合" class="headerlink" title="字母数字组合"></a>字母数字组合</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]&#123;8,16&#125;$</span><br></pre></td></tr></table></figure>
+<p>分开来注释一下：<br>^ 匹配一行的开头位置<br>(?![0-9]+$) 预测该位置后面不全是数字<br>(?![a-zA-Z]+$) 预测该位置后面不全是字母<br>[0-9A-Za-z] {8,16} 由8-16位数字或这字母组成<br>$ 匹配行结尾位置</p>
+<p>注：(?!xxxx) 是正则表达式的负向零宽断言一种形式，标识预该位置后不是xxxx字符。</p>
+<h2 id="不允许输入中文"><a href="#不允许输入中文" class="headerlink" title="不允许输入中文"></a>不允许输入中文</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const keyUp = (e, type) =&gt; &#123;</span><br><span class="line">  // eslint-disable-next-line no-param-reassign</span><br><span class="line">  e.target.value = e.target.value.replace(/[\u4E00-\u9FA5]|[\uFE30-\uFFA0]/g, &#x27;&#x27;)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/12/23/%E6%AD%A3%E5%88%99%E5%B8%B8%E7%94%A8/" data-id="ckxla1w76000dq79b801g5397" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-防抖节流" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/22/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/" class="article-date">
+  <time datetime="2021-12-22T08:24:36.000Z" itemprop="datePublished">2021-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/22/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/">防抖节流</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="防抖节流"><a href="#防抖节流" class="headerlink" title="防抖节流"></a>防抖节流</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">// 防抖</span><br><span class="line">function debounce(fn, delay=300) &#123;</span><br><span class="line">  //默认300毫秒</span><br><span class="line">  let timer;</span><br><span class="line">  return function() &#123;</span><br><span class="line">    var args = arguments;</span><br><span class="line">    if (timer) &#123;</span><br><span class="line">      clearTimeout(timer);</span><br><span class="line">    &#125;</span><br><span class="line">    timer = setTimeout(() =&gt; &#123;</span><br><span class="line">      fn.apply(this, args); // 改变this指向为调用debounce所指的对象</span><br><span class="line">    &#125;, delay);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">window.addEventListener(</span><br><span class="line">  &quot;scroll&quot;,</span><br><span class="line">  debance(() =&gt; &#123;</span><br><span class="line">    console.log(111);</span><br><span class="line">  &#125;, 1000)</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">// 节流</span><br><span class="line">//方法一：设置一个标志</span><br><span class="line">function throttle(fn, delay) &#123;</span><br><span class="line">  let flag = true;</span><br><span class="line">  return () =&gt; &#123;</span><br><span class="line">    if (!flag) return;</span><br><span class="line">    flag = false;</span><br><span class="line">    timer = setTimeout(() =&gt; &#123;</span><br><span class="line">      fn();</span><br><span class="line">      flag = true;</span><br><span class="line">    &#125;, delay);</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">//方法二：使用时间戳</span><br><span class="line">function throttle(fn, delay) &#123;</span><br><span class="line">  let startTime = new Date();</span><br><span class="line">  return () =&gt; &#123;</span><br><span class="line">    let endTime = new Date();</span><br><span class="line">    if (endTime - startTime &gt;= delay) &#123;</span><br><span class="line">      fn();</span><br><span class="line">      startTime = endTime;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      return;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line">window.addEventListener(</span><br><span class="line">  &quot;scroll&quot;,</span><br><span class="line">  throttle(() =&gt; &#123;</span><br><span class="line">    console.log(111);</span><br><span class="line">  &#125;, 1000)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/12/22/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/" data-id="ckxla1w77000eq79bdpw8cwbv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-promise实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/22/promise%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time datetime="2021-12-22T08:18:48.000Z" itemprop="datePublished">2021-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/22/promise%E5%AE%9E%E7%8E%B0/">promise实现</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="promise实现"><a href="#promise实现" class="headerlink" title="promise实现"></a>promise实现</h2><pre><code>// 这里使用es6 class实现
+class Mypromise &#123;
+  constructor (fn) &#123;
+    // 表示状态
+    this.state = &#39;pending&#39;
+    // 表示then注册的成功函数
+    this.successFun = []
+    // 表示then注册的失败函数
+    this.failFun = []
+
+const resolve = val =&gt; &#123;
+  // 保持状态改变不可变（resolve和reject只准触发一种）
+  if (this.state !== &#39;pending&#39;) return
+  // 成功触发时机  改变状态 同时执行在then注册的回调事件
+  this.state = &#39;success&#39;
+  console.log(&#39;resolve&#39;)
+  // 为了保证then事件先注册（主要是考虑在promise里面写同步代码） promise规范 这里为模拟异步
+  setTimeout(() =&gt; &#123;
+    // 执行当前事件里面所有的注册函数
+    console.log(&#39;resolve2&#39;, val)
+    this.successFun.forEach(item =&gt; item.call(this, val))
+  &#125;)
+&#125;
+
+const reject = err =&gt; &#123;
+  if (this.state !== &#39;pending&#39;) return
+  // 失败触发时机  改变状态 同时执行在then注册的回调事件
+  this.state = &#39;fail&#39;
+  // 为了保证then事件先注册（主要是考虑在promise里面写同步代码） promise规范 这里模拟异步
+  setTimeout(() =&gt; &#123;
+    this.failFun.forEach(item =&gt; item.call(this, err))
+  &#125;)
+&#125;
+// 调用函数
+try &#123;
+  fn(resolve, reject)
+&#125; catch (error) &#123;
+  reject(error)
+&#125;
+&#125;
+
+// 实例方法 then
+
+then (resolveCallback, rejectCallback) &#123;
+  console.log(&#39;then&#39;)
+  // 判断回调是否是函数
+  resolveCallback = typeof resolveCallback !== &#39;function&#39; ? v =&gt; v : resolveCallback
+  rejectCallback =
+    typeof rejectCallback !== &#39;function&#39;
+      ? err =&gt; &#123;
+        throw err
+      &#125;
+      : rejectCallback
+  // 为了保持链式调用  继续返回promise
+  return new Mypromise((resolve, reject) =&gt; &#123;
+    // 将回调注册到successFun事件集合里面去
+    this.successFun.push(val =&gt; &#123;
+      try &#123;
+        //    执行回调函数
+        const x = resolveCallback(val)
+        // （最难的一点）
+        // 如果回调函数结果是普通值 那么就resolve出去给下一个then链式调用  如果是一个promise对象（代表又是一个异步） 那么调用x的then方法 将resolve和reject传进去 等到x内部的异步 执行完毕的时候（状态完成）就会自动执行传入的resolve 这样就控制了链式调用的顺序
+        x instanceof Mypromise ? x.then(resolve, reject) : resolve(x)
+      &#125; catch (error) &#123;
+        reject(error)
+      &#125;
+    &#125;)
+
+    this.failFun.push(val =&gt; &#123;
+      try &#123;
+        //    执行回调函数
+        const x = rejectCallback(val)
+        x instanceof Mypromise ? x.then(resolve, reject) : reject(x)
+      &#125; catch (error) &#123;
+        reject(error)
+      &#125;
+    &#125;)
+  &#125;)
+&#125;
+
+// 静态方法
+static all (promiseArr) &#123;
+  const result = []
+  // 声明一个计数器 每一个promise返回就加一
+  let count = 0
+  return new Mypromise((resolve, reject) =&gt; &#123;
+    for (let i = 0; i &lt; promiseArr.length; i++) &#123;
+      promiseArr[i].then(
+        res =&gt; &#123;
+          // 这里不能直接push数组  因为要控制顺序一一对应(感谢评论区指正)
+          result[i] = res
+          count++
+          // 只有全部的promise执行成功之后才resolve出去
+          if (count === promiseArr.length) &#123;
+            resolve(result)
+          &#125;
+        &#125;,
+        err =&gt; &#123;
+          reject(err)
+        &#125;
+      )
+    &#125;
+  &#125;)
+&#125;
+
+// 静态方法
+static race (promiseArr) &#123;
+  return new Mypromise((resolve, reject) =&gt; &#123;
+    for (let i = 0; i &lt; promiseArr.length; i++) &#123;
+      promiseArr[i].then(
+        res =&gt; &#123;
+          // promise数组只要有任何一个promise 状态变更  就可以返回
+          resolve(res)
+        &#125;,
+        err =&gt; &#123;
+          reject(err)
+        &#125;
+      )
+    &#125;
+  &#125;)
+&#125;
+</code></pre>
+<p>  }</p>
+<p>  // 使用<br>  const promise1 = new Mypromise((resolve, reject) =&gt; {<br>    setTimeout(() =&gt; {<br>      resolve(123)<br>    }, 2000)<br>  })<br>  const promise2 = new Mypromise((resolve, reject) =&gt; {<br>    setTimeout(() =&gt; {<br>      resolve(1234)<br>    }, 1000)<br>  })</p>
+<p>  Mypromise.all([promise1, promise2]).then(res =&gt; {<br>    console.log(res)<br>  })</p>
+<p>  Mypromise.race([promise1, promise2]).then(res =&gt; {<br>    console.log(res)<br>  })<br>  promise1<br>    .then(<br>      res =&gt; {<br>        console.log(res) // 过两秒输出123<br>        return new Mypromise((resolve, reject) =&gt; {<br>          setTimeout(() =&gt; {<br>            resolve(‘success’)<br>          }, 1000)<br>        })<br>      },<br>      err =&gt; {<br>        console.log(err)<br>      }<br>    )<br>    .then(<br>      res =&gt; {<br>        console.log(res) // 再过一秒输出success<br>      },<br>      err =&gt; {<br>        console.log(err)<br>      }<br>    )</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/12/22/promise%E5%AE%9E%E7%8E%B0/" data-id="ckxla1w73000aq79ba9x64k7n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-watermark" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/20/watermark/" class="article-date">
+  <time datetime="2021-12-20T07:50:15.000Z" itemprop="datePublished">2021-12-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/12/20/watermark/">watermark</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="在util目录下创建watermark-js"><a href="#在util目录下创建watermark-js" class="headerlink" title="在util目录下创建watermark.js"></a>在util目录下创建watermark.js</h2><pre><code>  let watermark = &#123;&#125;;
+
+  let id = &quot;set-customer-watermark-id&quot;;
+
+  let setWatermark = (dom, str) =&gt; &#123;
+    if (document.getElementById(id) !== null) &#123;
+      dom
+        ? dom.removeChild(document.getElementById(id))
+        : document.body.removeChild(document.getElementById(id));
+    &#125;
+
+    // 创建一个画布
+    let can = document.createElement(&quot;canvas&quot;);
+    can.width = 200;
+    can.height = 200;
+
+    // 设置画布样式
+    let cans = can.getContext(&quot;2d&quot;);
+    cans.rotate((-30 * Math.PI) / 180);
+    cans.font = &quot;15px Vedana&quot;;
+    cans.fillStyle = &quot;rgba(0,0,0,0.15)&quot;;
+    cans.textAlign = &quot;left&quot;;
+    cans.textBaseline = &quot;Middle&quot;;
+    cans.fillText(str, 0, can.height);
+
+    // 创建整体容器，设置样式
+    let div = document.createElement(&quot;div&quot;);
+    div.id = id;
+    div.style.pointerEvents = &quot;none&quot;;
+    div.style.top = &quot;0px&quot;;
+    div.style.left = &quot;-100px&quot;;
+    div.style.position = &quot;absolute&quot;;
+    div.style.zIndex = &quot;1000&quot;;
+    div.style.width = document.documentElement.clientWidth + &quot;px&quot;;
+    div.style.height = document.documentElement.clientHeight + &quot;px&quot;;
+    div.style.background =
+      &quot;url(&quot; + can.toDataURL(&quot;image/png&quot;) + &quot;) left top repeat&quot;;
+
+    dom ? dom.appendChild(div) : document.body.appendChild(div);
+    return id;
+  &#125;;
+
+  // 设置水印
+  watermark.set = (dom, str) =&gt; &#123;
+    let id = setWatermark(dom, str);
+    setInterval(() =&gt; &#123;
+      if (document.getElementById(id) === null) &#123;
+        id = setWatermark(dom, str);
+      &#125;
+    &#125;, 500);
+    window.onresize = () =&gt; &#123;
+      setWatermark(dom, str);
+    &#125;;
+  &#125;;
+
+  // 清除水印
+  watermark.remove = () =&gt; &#123;
+    if (document.getElementById(id) !== null) &#123;
+      document.getElementById(id).style.display = &quot;none&quot;;
+    &#125;
+  &#125;;
+
+  export default watermark;
+</code></pre>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><pre><code>  &lt;template&gt;
+    &lt;div class=&quot;home&quot; id=&quot;water-mark-content&quot;&gt;
+      &lt;HelloWorld msg=&quot;Welcome to Your Vue.js App&quot; /&gt;
+    &lt;/div&gt;
+  &lt;/template&gt;
+
+  &lt;script&gt;
+  // @ is an alias to /src
+  import HelloWorld from &quot;@/components/HelloWorld.vue&quot;;
+  import Watermark from &quot;@/utils/lib/watermark&quot;;
+
+  export default &#123;
+    name: &quot;Home&quot;,
+    components: &#123;
+      HelloWorld,
+    &#125;,
+    mounted() &#123;
+      this.setWatermark();
+    &#125;,
+    methods: &#123;
+      setWatermark() &#123;
+        const text = `lorretta-2021年9月7日15点37分`;
+        Watermark.set(document.getElementById(&quot;water-mark-content&quot;), text);
+      &#125;,
+    &#125;,
+  &#125;;
+  &lt;/script&gt;
+</code></pre>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/12/20/watermark/" data-id="ckxla1w75000bq79b077r3iaz" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-hexo操作" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2021/12/16/hexo%E6%93%8D%E4%BD%9C/" class="article-date">
@@ -103,14 +515,14 @@
  //第五条 启动本地服务
  hexo s
 </code></pre>
-<p>合并：1.     npm install -g hexo &amp;&amp; hexo init &amp;&amp; npm install &amp;&amp;npm i hexo-deployer-git &amp;&amp; hexo g &amp;&amp; hexo s<br>git 步骤：2.git config –global user.name ‘feixiangsnaik’ &amp;&amp;git config –global user.email ‘<a href="mailto:&#x66;&#101;&#105;&#x78;&#105;&#x61;&#x6e;&#x67;&#115;&#110;&#97;&#105;&#x6c;&#64;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;">&#x66;&#101;&#105;&#x78;&#105;&#x61;&#x6e;&#x67;&#115;&#110;&#97;&#105;&#x6c;&#64;&#x67;&#109;&#x61;&#x69;&#108;&#x2e;&#x63;&#111;&#x6d;</a>‘&amp;&amp;ssh-keygen -t rsa -C ‘<a href="mailto:&#x66;&#x65;&#105;&#120;&#x69;&#x61;&#110;&#x67;&#115;&#110;&#x61;&#105;&#108;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;">&#x66;&#x65;&#105;&#120;&#x69;&#x61;&#110;&#x67;&#115;&#110;&#x61;&#105;&#108;&#64;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#99;&#x6f;&#109;</a>‘    然后回车到底，把pub的内容拷贝到github ssh里面。<br>3.deploy:<br>  type: git<br>  repository: <a target="_blank" rel="noopener" href="https://github.com/feixiangsnaik/feixiangsnaik.github.io">https://github.com/feixiangsnaik/feixiangsnaik.github.io</a><br>  branch: master<br>把上面代码添加到config.xml最下面<br>4.hexo new post “article title”新建文章，然后 hexo g &amp;&amp; hexo s &amp;&amp;hexo d（或者清除缓存，每次修改配置文件后都要执行该命令<br>  hexo clean</p>
+<p>合并：1.     npm install -g hexo &amp;&amp; hexo init &amp;&amp; npm install &amp;&amp;npm i hexo-deployer-git &amp;&amp; hexo g &amp;&amp; hexo s<br>git 步骤：2.git config –global user.name ‘feixiangsnaik’ &amp;&amp;git config –global user.email ‘<a href="mailto:&#x66;&#x65;&#x69;&#x78;&#105;&#97;&#110;&#x67;&#115;&#110;&#x61;&#105;&#108;&#x40;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;">&#x66;&#x65;&#x69;&#x78;&#105;&#97;&#110;&#x67;&#115;&#110;&#x61;&#105;&#108;&#x40;&#103;&#x6d;&#97;&#x69;&#108;&#x2e;&#x63;&#x6f;&#109;</a>‘&amp;&amp;ssh-keygen -t rsa -C ‘<a href="mailto:&#102;&#x65;&#105;&#120;&#105;&#97;&#110;&#103;&#115;&#110;&#x61;&#105;&#x6c;&#x40;&#103;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;">&#102;&#x65;&#105;&#120;&#105;&#97;&#110;&#103;&#115;&#110;&#x61;&#105;&#x6c;&#x40;&#103;&#x6d;&#x61;&#105;&#x6c;&#x2e;&#99;&#111;&#x6d;</a>‘    然后回车到底，把pub的内容拷贝到github ssh里面。<br>3.deploy:<br>  type: git<br>  repository: <a target="_blank" rel="noopener" href="https://github.com/feixiangsnaik/feixiangsnaik.github.io">https://github.com/feixiangsnaik/feixiangsnaik.github.io</a><br>  branch: master<br>把上面代码添加到config.xml最下面<br>4.hexo new post “article title”新建文章，然后 hexo g &amp;&amp; hexo s &amp;&amp;hexo d（或者清除缓存，每次修改配置文件后都要执行该命令<br>  hexo clean</p>
 <p>  // 生成静态页面文件，每次clean后也要重新生成<br>  hexo g</p>
 <p>  // 向仓库推送文件<br>  hexo d）<br>合并：hexo clean &amp;&amp; hexo g &amp;&amp; hexo d</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/12/16/hexo%E6%93%8D%E4%BD%9C/" data-id="ckx9pmhwb0003s79bh09y9svy" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/12/16/hexo%E6%93%8D%E4%BD%9C/" data-id="ckxla1w6z0005q79bfcru4t72" class="article-share-link">Share</a>
       
       
     </footer>
@@ -198,7 +610,7 @@ app.listen(4000);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/12/16/jwt/" data-id="ckx9pmhwe0006s79bbecj4a3t" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/12/16/jwt/" data-id="ckxla1w700007q79ba3i58cv7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -237,7 +649,7 @@ app.listen(4000);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/26/%E5%A5%BD%E7%BD%91%E7%AB%99/" data-id="ckx9pmhwg0009s79b63z69xqx" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/11/26/%E5%A5%BD%E7%BD%91%E7%AB%99/" data-id="ckxla1w76000cq79b5hktckkg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -289,7 +701,7 @@ app.listen(4000);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/25/markdown%E5%AD%A6%E4%B9%A0/" data-id="ckx9pmhwf0008s79bbbgt2rqw" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/11/25/markdown%E5%AD%A6%E4%B9%A0/" data-id="ckxla1w720009q79b3yr66w69" class="article-share-link">Share</a>
       
       
     </footer>
@@ -329,215 +741,7 @@ app.listen(4000);
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/25/git%E6%93%8D%E4%BD%9C/" data-id="ckx9pmhwc0004s79bbkfwe2zm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-css" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/11/25/css/" class="article-date">
-  <time datetime="2021-11-25T09:23:01.000Z" itemprop="datePublished">2021-11-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/25/css/">css</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/25/css/" data-id="ckx9pmhw90001s79b9gfo9k3q" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js数组" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/11/25/js%E6%95%B0%E7%BB%84/" class="article-date">
-  <time datetime="2021-11-25T09:22:55.000Z" itemprop="datePublished">2021-11-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/25/js%E6%95%B0%E7%BB%84/">js数组</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="splice"><a href="#splice" class="headerlink" title="splice"></a>splice</h2><h3 id="删除某个数组元素-原数组改变，返回被删除或者被替换的哪个。"><a href="#删除某个数组元素-原数组改变，返回被删除或者被替换的哪个。" class="headerlink" title="删除某个数组元素,原数组改变，返回被删除或者被替换的哪个。"></a>删除某个数组元素,原数组改变，返回被删除或者被替换的哪个。</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">let b = [1,2,3,4,5]</span><br><span class="line">//如果想删除3，就找到第三项，删除1个（下标，个数），如果想替换，那么第三个参数是添加到删除的位置处</span><br><span class="line">let aa = a.splice(2,1) //删除3</span><br><span class="line">let bb = b.splice(2,1,&#x27;hello&#x27;) //把3换成hello</span><br><span class="line">console.log(a,b,aa,bb)</span><br></pre></td></tr></table></figure>
-<h2 id="slice"><a href="#slice" class="headerlink" title="slice"></a>slice</h2><h3 id="原数组不变，返回数组为截取的"><a href="#原数组不变，返回数组为截取的" class="headerlink" title="原数组不变，返回数组为截取的"></a>原数组不变，返回数组为截取的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">let a = [1,2,3,4,5]</span><br><span class="line">let b = a.slice(1,-1)</span><br><span class="line">console.log(a,b,&#x27;ab&#x27;)</span><br><span class="line">//a=[1,2,3,4,5] b=[2,3,4]</span><br></pre></td></tr></table></figure>
-<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><h3 id="返回一个新数组，内容只包括返回的值。"><a href="#返回一个新数组，内容只包括返回的值。" class="headerlink" title="返回一个新数组，内容只包括返回的值。"></a>返回一个新数组，内容只包括返回的值。</h3><pre><code>var nn = [ &#123; a: &#39;ss&#39;,b:&#39;b1&#39; &#125;,&#123; a: &#39;aa&#39;,b:&#39;b2&#39; &#125;,&#123; a : &#39;11&#39;,b:&#39;b3&#39;&#125; ] 
-var index = nn.map(item =&gt;&#123; return &#123;d:item.a,b:item.b&#125;&#125;)
-console.log(index) [&#123;d:&#39;ss&#39;,b:&#39;b1&#39;&#125;,...]
-//返回指定某个元素的下标
-var nn = [ &#123; a: &#39;ss&#39; &#125;,&#123; a: &#39;aa&#39; &#125;,&#123; a : &#39;11&#39;&#125;,&#123; a: &#39;33&#39; &#125;,&#123; a: &#39;88&#39; &#125; ] 
-var index = nn.map(item =&gt; item.a).indexOf(33)
-console.log(index)
-</code></pre>
-<h2 id="findIndexOf"><a href="#findIndexOf" class="headerlink" title="findIndexOf"></a>findIndexOf</h2><ol>
-<li>查找对象数组，然后返回指定内容的对象所在的索引。<h2 id="every"><a href="#every" class="headerlink" title="every"></a>every</h2></li>
-<li>如果每个都满足，那么就返回true</li>
-</ol>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/25/js%E6%95%B0%E7%BB%84/" data-id="ckx9pmhwd0005s79bhb1jdrl0" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-less" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/11/25/less/" class="article-date">
-  <time datetime="2021-11-25T03:05:02.000Z" itemprop="datePublished">2021-11-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/25/less/">less</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="1-混入"><a href="#1-混入" class="headerlink" title="1.混入"></a>1.混入</h2><p>样式混入可以使用混入的方式。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.common-titile&#123;</span><br><span class="line">  color:red;</span><br><span class="line">&#125;</span><br><span class="line">.title&#123;</span><br><span class="line">  .common-titile;</span><br><span class="line">  font-size:20px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/25/less/" data-id="ckx9pmhwf0007s79bf8hcgtok" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/11/24/hello-world/" class="article-date">
-  <time datetime="2021-11-24T12:10:25.817Z" itemprop="datePublished">2021-11-24</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/24/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/24/hello-world/" data-id="ckx9pmhwa0002s79bcuafguee" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-article-title" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2021/11/16/article-title/" class="article-date">
-  <time datetime="2021-11-16T05:20:17.000Z" itemprop="datePublished">2021-11-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/11/16/article-title/">article title</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://example.com/2021/11/16/article-title/" data-id="ckx9pmhw50000s79b93nw0imy" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/11/25/git%E6%93%8D%E4%BD%9C/" data-id="ckxla1w6x0003q79b4rca3pc9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -548,6 +752,11 @@ console.log(index)
 
   
 
+
+  <nav id="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+  </nav>
 
 </section>
         
@@ -578,23 +787,23 @@ console.log(index)
       <ul>
         
           <li>
-            <a href="/2021/12/16/hexo%E6%93%8D%E4%BD%9C/">hexo操作</a>
+            <a href="/2021/12/25/docker/">docker</a>
           </li>
         
           <li>
-            <a href="/2021/12/16/jwt/">jwt</a>
+            <a href="/2021/12/23/%E6%AD%A3%E5%88%99%E5%B8%B8%E7%94%A8/">正则常用</a>
           </li>
         
           <li>
-            <a href="/2021/11/26/%E5%A5%BD%E7%BD%91%E7%AB%99/">好网站</a>
+            <a href="/2021/12/22/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/">防抖节流</a>
           </li>
         
           <li>
-            <a href="/2021/11/25/markdown%E5%AD%A6%E4%B9%A0/">markdown学习</a>
+            <a href="/2021/12/22/promise%E5%AE%9E%E7%8E%B0/">promise实现</a>
           </li>
         
           <li>
-            <a href="/2021/11/25/git%E6%93%8D%E4%BD%9C/">git操作</a>
+            <a href="/2021/12/20/watermark/">watermark</a>
           </li>
         
       </ul>

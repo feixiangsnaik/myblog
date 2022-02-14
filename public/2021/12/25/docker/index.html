@@ -5,17 +5,17 @@
   
 
   
-  <title>jwt | Hexo</title>
+  <title>docker | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="示例代码let Koa &#x3D; require(&#39;koa&#39;); let Router &#x3D; require(&#39;koa-router&#39;); let bodyparser &#x3D; require(&#39;koa-bodyparser&#39;); let jwt &#x3D; require(&#39;jwt-simple&#39;); let router &#x3D; new Router()">
+  <meta name="description" content="常规操作mac 安装：   brew install –cask dockerhttps:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;40523307&#x2F;brew-install-docker-does-not-include-docker-enginedocker版本查看   docker -v 安装centos和宝塔1.docker pull centos2.docker run">
 <meta property="og:type" content="article">
-<meta property="og:title" content="jwt">
-<meta property="og:url" content="http://example.com/2021/12/16/jwt/index.html">
+<meta property="og:title" content="docker">
+<meta property="og:url" content="http://example.com/2021/12/25/docker/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="示例代码let Koa &#x3D; require(&#39;koa&#39;); let Router &#x3D; require(&#39;koa-router&#39;); let bodyparser &#x3D; require(&#39;koa-bodyparser&#39;); let jwt &#x3D; require(&#39;jwt-simple&#39;); let router &#x3D; new Router()">
+<meta property="og:description" content="常规操作mac 安装：   brew install –cask dockerhttps:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;40523307&#x2F;brew-install-docker-does-not-include-docker-enginedocker版本查看   docker -v 安装centos和宝塔1.docker pull centos2.docker run">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-12-16T08:15:18.000Z">
-<meta property="article:modified_time" content="2021-12-16T08:16:11.662Z">
+<meta property="article:published_time" content="2021-12-25T03:39:29.000Z">
+<meta property="article:modified_time" content="2021-12-25T03:41:14.575Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -66,10 +66,10 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-jwt" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-docker" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2021/12/16/jwt/" class="article-date">
-  <time datetime="2021-12-16T08:15:18.000Z" itemprop="datePublished">2021-12-16</time>
+    <a href="/2021/12/25/docker/" class="article-date">
+  <time datetime="2021-12-25T03:39:29.000Z" itemprop="datePublished">2021-12-25</time>
 </a>
     
   </div>
@@ -80,7 +80,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      jwt
+      docker
     </h1>
   
 
@@ -88,63 +88,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="示例代码"><a href="#示例代码" class="headerlink" title="示例代码"></a>示例代码</h2><pre><code>let Koa = require(&#39;koa&#39;);
-let Router = require(&#39;koa-router&#39;);
-let bodyparser = require(&#39;koa-bodyparser&#39;);
-let jwt = require(&#39;jwt-simple&#39;);
-let router = new Router()
-let app = new Koa();
-app.use(bodyparser());
-// 可以自己自定义
-let secret = &#39;zhenglei&#39;;
-// 验证是否登陆
-router.post(&#39;/login&#39;,async(ctx)=&gt;&#123; 
-    let &#123;username,password&#125; = ctx.request.body;
-    if(username === &#39;admin&#39; &amp;&amp; password === &#39;admin&#39;)&#123;
-      // 通常会查数据库，这里简单的演示
-      let token =  jwt.encode(username, secret);
-      ctx.body = &#123;
-            code:200,
-            username,
-            token,
-      &#125;
-    &#125;
-&#125;);
-// 验证是否有权限
-router.get(&#39;/validate&#39;,async(ctx)=&gt;&#123; 
-    let Authorization = ctx.get(&#39;authorization&#39;)
-    let [,token] = Authorization.split(&#39; &#39;);
-    if(token)&#123;
-        try&#123;
-            let r = jwt.decode(token,secret);
-            ctx.body = &#123;
-                code:200,
-                username:r,
-                token
-            &#125;
-        &#125;catch(e)&#123;
-            ctx.body = &#123;
-                code:401,
-                data:&#39;没有登陆&#39;
-            &#125;
-        &#125;
-    &#125;else&#123;
-        ctx.body = &#123;
-            code:401,
-            data:&#39;没有登陆&#39;
-        &#125;
-    &#125;
-  
-&#125;);
-app.use(router.routes());
-app.listen(4000);
+        <h2 id="常规操作"><a href="#常规操作" class="headerlink" title="常规操作"></a>常规操作</h2><p>mac 安装：   brew install –cask docker<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/40523307/brew-install-docker-does-not-include-docker-engine">https://stackoverflow.com/questions/40523307/brew-install-docker-does-not-include-docker-engine</a><br>docker版本查看   docker -v</p>
+<h2 id="安装centos和宝塔"><a href="#安装centos和宝塔" class="headerlink" title="安装centos和宝塔"></a>安装centos和宝塔</h2><p>1.docker pull centos<br>2.docker run -i -t -d –name baota -p 20:20 -p 21:21 -p 80:80 -p 443:443 -p 888:888 -p 8888:8888 –privileged=true -v /home/www:/www centos     如果目录不能访问就换个目录比如（docker run -i -t -d –name baota -p 20:20 -p 21:21 -p 80:80 -p 443:443 -p 888:888 -p 8888:8888 –privileged=true -v /Users/zhangshuai/Desktop/installedsoftware/www:/www centos:7 /usr/sbin/init）<br>3.docker exec -it baota /bin/bash</p>
+<h2 id="宝塔安装"><a href="#宝塔安装" class="headerlink" title="宝塔安装"></a>宝塔安装</h2><p>4.yum install -y wget &amp;&amp; wget -O install.sh <a target="_blank" rel="noopener" href="http://download.bt.cn/install/install.sh">http://download.bt.cn/install/install.sh</a> &amp;&amp; sh install.sh<br>docker-&gt;preferences-&gt;resource-&gt;file sharing</p>
+<h2 id="删除所有已退出的容器"><a href="#删除所有已退出的容器" class="headerlink" title="删除所有已退出的容器"></a>删除所有已退出的容器</h2><p>docker rm $(docker ps -q -f status=exited)</p>
+<p>删除所有已停止的容器<br>docker rm $(docker ps -a -q)</p>
+<h2 id="删除所有正在运行和已停止的容器"><a href="#删除所有正在运行和已停止的容器" class="headerlink" title="删除所有正在运行和已停止的容器"></a>删除所有正在运行和已停止的容器</h2><pre><code>docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
 </code></pre>
-<p>作者：腾讯IMWeb团队<br>链接：<a target="_blank" rel="noopener" href="https://juejin.cn/post/6873700061000237069">https://juejin.cn/post/6873700061000237069</a><br>来源：稀土掘金<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
+<h2 id="删除所有容器，没有任何标准"><a href="#删除所有容器，没有任何标准" class="headerlink" title="删除所有容器，没有任何标准"></a>删除所有容器，没有任何标准</h2><p>docker container rm $(docker container ps -aq)</p>
+<p>但是，在1.13及更高版本中，对于完整的系统和清理，我们可以直接使用以下命令，<br>docker system prune</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2021/12/16/jwt/" data-id="ckxla1w700007q79ba3i58cv7" class="article-share-link">Share</a>
+      <a data-url="http://example.com/2021/12/25/docker/" data-id="ckxla1w6w0002q79bfytrcnzn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,19 +111,10 @@ app.listen(4000);
     
 <nav id="article-nav">
   
-    <a href="/2021/12/16/hexo%E6%93%8D%E4%BD%9C/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          hexo操作
-        
-      </div>
-    </a>
   
-  
-    <a href="/2021/11/26/%E5%A5%BD%E7%BD%91%E7%AB%99/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2021/12/23/%E6%AD%A3%E5%88%99%E5%B8%B8%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">好网站</div>
+      <div class="article-nav-title">正则常用</div>
     </a>
   
 </nav>

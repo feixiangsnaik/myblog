@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>promise实现 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="promise实现&#x2F;&#x2F; 这里使用es6 class实现 class Mypromise &amp;#123;   constructor (fn) &amp;#123;     &#x2F;&#x2F; 表示状态     this.state &#x3D; &#39;pending&#39;     &#x2F;&#x2F; 表示then注册的成功函数     this.successFun &#x3D; []     &#x2F;&#x2F; 表示then注册的失败函数     this.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="promise实现">
+<meta property="og:url" content="http://example.com/2021/12/22/promise%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="promise实现&#x2F;&#x2F; 这里使用es6 class实现 class Mypromise &amp;#123;   constructor (fn) &amp;#123;     &#x2F;&#x2F; 表示状态     this.state &#x3D; &#39;pending&#39;     &#x2F;&#x2F; 表示then注册的成功函数     this.successFun &#x3D; []     &#x2F;&#x2F; 表示then注册的失败函数     this.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-12-22T08:18:48.000Z">
+<meta property="article:modified_time" content="2021-12-25T03:38:36.257Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-promise实现" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2021/12/22/promise%E5%AE%9E%E7%8E%B0/" class="article-date">
+  <time datetime="2021-12-22T08:18:48.000Z" itemprop="datePublished">2021-12-22</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      promise实现
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="promise实现"><a href="#promise实现" class="headerlink" title="promise实现"></a>promise实现</h2><pre><code>// 这里使用es6 class实现
+class Mypromise &#123;
+  constructor (fn) &#123;
+    // 表示状态
+    this.state = &#39;pending&#39;
+    // 表示then注册的成功函数
+    this.successFun = []
+    // 表示then注册的失败函数
+    this.failFun = []
+
+const resolve = val =&gt; &#123;
+  // 保持状态改变不可变（resolve和reject只准触发一种）
+  if (this.state !== &#39;pending&#39;) return
+  // 成功触发时机  改变状态 同时执行在then注册的回调事件
+  this.state = &#39;success&#39;
+  console.log(&#39;resolve&#39;)
+  // 为了保证then事件先注册（主要是考虑在promise里面写同步代码） promise规范 这里为模拟异步
+  setTimeout(() =&gt; &#123;
+    // 执行当前事件里面所有的注册函数
+    console.log(&#39;resolve2&#39;, val)
+    this.successFun.forEach(item =&gt; item.call(this, val))
+  &#125;)
+&#125;
+
+const reject = err =&gt; &#123;
+  if (this.state !== &#39;pending&#39;) return
+  // 失败触发时机  改变状态 同时执行在then注册的回调事件
+  this.state = &#39;fail&#39;
+  // 为了保证then事件先注册（主要是考虑在promise里面写同步代码） promise规范 这里模拟异步
+  setTimeout(() =&gt; &#123;
+    this.failFun.forEach(item =&gt; item.call(this, err))
+  &#125;)
+&#125;
+// 调用函数
+try &#123;
+  fn(resolve, reject)
+&#125; catch (error) &#123;
+  reject(error)
+&#125;
+&#125;
+
+// 实例方法 then
+
+then (resolveCallback, rejectCallback) &#123;
+  console.log(&#39;then&#39;)
+  // 判断回调是否是函数
+  resolveCallback = typeof resolveCallback !== &#39;function&#39; ? v =&gt; v : resolveCallback
+  rejectCallback =
+    typeof rejectCallback !== &#39;function&#39;
+      ? err =&gt; &#123;
+        throw err
+      &#125;
+      : rejectCallback
+  // 为了保持链式调用  继续返回promise
+  return new Mypromise((resolve, reject) =&gt; &#123;
+    // 将回调注册到successFun事件集合里面去
+    this.successFun.push(val =&gt; &#123;
+      try &#123;
+        //    执行回调函数
+        const x = resolveCallback(val)
+        // （最难的一点）
+        // 如果回调函数结果是普通值 那么就resolve出去给下一个then链式调用  如果是一个promise对象（代表又是一个异步） 那么调用x的then方法 将resolve和reject传进去 等到x内部的异步 执行完毕的时候（状态完成）就会自动执行传入的resolve 这样就控制了链式调用的顺序
+        x instanceof Mypromise ? x.then(resolve, reject) : resolve(x)
+      &#125; catch (error) &#123;
+        reject(error)
+      &#125;
+    &#125;)
+
+    this.failFun.push(val =&gt; &#123;
+      try &#123;
+        //    执行回调函数
+        const x = rejectCallback(val)
+        x instanceof Mypromise ? x.then(resolve, reject) : reject(x)
+      &#125; catch (error) &#123;
+        reject(error)
+      &#125;
+    &#125;)
+  &#125;)
+&#125;
+
+// 静态方法
+static all (promiseArr) &#123;
+  const result = []
+  // 声明一个计数器 每一个promise返回就加一
+  let count = 0
+  return new Mypromise((resolve, reject) =&gt; &#123;
+    for (let i = 0; i &lt; promiseArr.length; i++) &#123;
+      promiseArr[i].then(
+        res =&gt; &#123;
+          // 这里不能直接push数组  因为要控制顺序一一对应(感谢评论区指正)
+          result[i] = res
+          count++
+          // 只有全部的promise执行成功之后才resolve出去
+          if (count === promiseArr.length) &#123;
+            resolve(result)
+          &#125;
+        &#125;,
+        err =&gt; &#123;
+          reject(err)
+        &#125;
+      )
+    &#125;
+  &#125;)
+&#125;
+
+// 静态方法
+static race (promiseArr) &#123;
+  return new Mypromise((resolve, reject) =&gt; &#123;
+    for (let i = 0; i &lt; promiseArr.length; i++) &#123;
+      promiseArr[i].then(
+        res =&gt; &#123;
+          // promise数组只要有任何一个promise 状态变更  就可以返回
+          resolve(res)
+        &#125;,
+        err =&gt; &#123;
+          reject(err)
+        &#125;
+      )
+    &#125;
+  &#125;)
+&#125;
+</code></pre>
+<p>  }</p>
+<p>  // 使用<br>  const promise1 = new Mypromise((resolve, reject) =&gt; {<br>    setTimeout(() =&gt; {<br>      resolve(123)<br>    }, 2000)<br>  })<br>  const promise2 = new Mypromise((resolve, reject) =&gt; {<br>    setTimeout(() =&gt; {<br>      resolve(1234)<br>    }, 1000)<br>  })</p>
+<p>  Mypromise.all([promise1, promise2]).then(res =&gt; {<br>    console.log(res)<br>  })</p>
+<p>  Mypromise.race([promise1, promise2]).then(res =&gt; {<br>    console.log(res)<br>  })<br>  promise1<br>    .then(<br>      res =&gt; {<br>        console.log(res) // 过两秒输出123<br>        return new Mypromise((resolve, reject) =&gt; {<br>          setTimeout(() =&gt; {<br>            resolve(‘success’)<br>          }, 1000)<br>        })<br>      },<br>      err =&gt; {<br>        console.log(err)<br>      }<br>    )<br>    .then(<br>      res =&gt; {<br>        console.log(res) // 再过一秒输出success<br>      },<br>      err =&gt; {<br>        console.log(err)<br>      }<br>    )</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/12/22/promise%E5%AE%9E%E7%8E%B0/" data-id="ckxla1w73000aq79ba9x64k7n" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2021/12/22/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          防抖节流
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/12/20/watermark/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">watermark</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/12/">December 2021</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/11/">November 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/12/25/docker/">docker</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/23/%E6%AD%A3%E5%88%99%E5%B8%B8%E7%94%A8/">正则常用</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/%E9%98%B2%E6%8A%96%E8%8A%82%E6%B5%81/">防抖节流</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/22/promise%E5%AE%9E%E7%8E%B0/">promise实现</a>
+          </li>
+        
+          <li>
+            <a href="/2021/12/20/watermark/">watermark</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2021 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+  </div>
+</body>
+</html>
